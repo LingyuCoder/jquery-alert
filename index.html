@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		@font-face {
+		  font-family: 'jq-plu-font';
+		  src: url('http://at.alicdn.com/t/font_1409486224_0824313.eot'); /* IE9*/
+		  src: url('http://at.alicdn.com/t/font_1409486224_0824313.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+		  url('http://at.alicdn.com/t/font_1409486224_0824313.woff') format('woff'), /* chrome、firefox */
+		  url('http://at.alicdn.com/t/font_1409486224_0824313.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+		  url('http://at.alicdn.com/t/font_1409486224_0824313.svg#iconfont') format('svg'); /* iOS 4.1- */
+		}
+
+		.wd-ui-modal {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			background-color: #000;
+			opacity: 0.2;
+			z-index: 999999;
+		}
+		.wd-ui-pn {
+			position: absolute;
+			border-radius: 2px;
+			box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
+			background-color: #fff;
+			z-index: 1000000;
+		}
+		.wd-ui-ctn {
+		    padding: .5em;
+		    color: #444;
+		}
+		.wd-ui-ft {
+			padding: .5em;
+			border-top: 1px solid #ddd;
+		}
+		.wd-ui-tt {
+			padding: .5em;
+			line-height: 1.4em;
+			font-weight: bolder;
+			font-size: 1.2em;
+			border-bottom: 1px solid #ddd;
+		}
+		.wd-ui-move {
+			cursor: move;
+		}
+		.wd-ui-tt:after,
+		.wd-ui-ft:after {
+			content: '';
+			clear: both;
+			width: 100%;
+			height: 0;
+			display: block;
+		}
+		.wd-ui-close {
+			float: right;
+			border: none;
+			color: #fff;
+			padding: .3em 1.2em;
+			cursor: pointer;
+			background-color: chocolate;
+		}
+		.wd-ui-ok {
+			float: right;
+			border: none;
+			color: #fff;
+			padding: .3em 1.2em;
+			cursor: pointer;
+			background-color: cornflowerblue;
+		}
+		.wd-ui-ipt {
+			padding: .5em .5em 0 0;
+		}
+		.wd-ui-ipt input{
+			width: 100%;
+		}
+		.wd-ui-tp-close,
+		.wd-ui-tp-min,
+		.wd-ui-tp-max {
+			float: right;
+			border: none;
+			background: none;
+			color: #fff;
+			cursor: pointer;
+			padding: .3em;
+			font-family: 'jq-plu-font';
+			line-height: 1.2em;
+			text-align: center;
+		}
+
+		.wd-ui-tp-close {
+			background-color: brown;
+		}
+		.wd-ui-tp-min {
+			background-color: burlywood;
+		}
+		.wd-ui-tp-max {
+			background-color: darkseagreen;
+		}
+		body {
+			height: 3000px
+		}
+	</style>
+</head>
+<body>
+	<button id="alert">alert</button>
+	<button id="confirm">confirm</button>
+	<button id="prompt">prompt</button>
+	<button id="widget">widget</button>
+	<div id="dialog">asdfkjashdfkjashdjf</div>
+	<script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+	<script type="text/javascript" src="../align/jquery-align.js"></script>
+	<script type="text/javascript" src="../widget/jquery-widget.js"></script>
+	<script type="text/javascript" src="../dialog/jquery-dialog.js"></script>
+	<script type="text/javascript" src="jquery-alert.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#alert").click(function(){
+				$.alert({
+					content: '发生错误了～',
+					modal: true,
+					closeText: '关闭',
+					fixed: false,
+					close: function(){
+						alert('alert closed');
+					},
+					open: function() {
+						alert('alert opened');
+					}
+				});
+			});
+			$("#confirm").click(function(){
+				$.confirm({
+					content: '请问您确定要取消关注吗？',
+					modal: true,
+					closeText: '取消',
+					okText: '确定',
+					fixed: true,
+					close: function(){
+						alert('confirm closed');
+					},
+					ok: function(){
+						alert('confirm ok');
+					}
+				});
+			});
+			$("#prompt").click(function(){
+				$.prompt({
+					content: '请问您想叫啥？',
+					modal: true,
+					closeText: '取消',
+					okText: '确定',
+					fixed: true,
+					defaultValue: 'default',
+					remind: 'remind',
+					close: function(){
+						alert('prompt closed');
+					},
+					ok: function(val){
+						alert('prompt ok: ' + val);
+					}
+				});
+			});
+
+
+			var widget = $.widget({
+				content: 'content',
+				title: 'title',
+				footer: 'footer',
+				modal: true,
+				dragable: true,
+				closeable: true,
+				autoOpen: false,
+				close: function(){
+					alert('widget closed');
+				},
+				closeText: '关闭',
+				align: {
+					fixed: false
+				}
+			});
+			var widget2 = $.widget({
+				content: 'content2',
+				title: 'title2',
+				footer: 'footer2',
+				modal: true,
+				dragable: true,
+				closeable: true,
+				autoOpen: false,
+				close: function(){
+					alert('widget closed');
+				},
+				closeText: '关闭',
+				align: {
+					fixed: false
+				}
+			});
+			$("#widget").click(function(){
+				widget.open();
+				widget2.open();
+			});
+
+			$('#dialog').dialog({
+				title: 'title',
+				footer: 'footer',
+				modal: true,
+				draggable: true,
+				closeable: true,
+				autoOpen: true,
+				minify: true,
+				maxify: true,
+				css: {},
+				minimize: function(){},
+				maximize: function(){},
+				width: 400,
+				height: 200
+			});
+		});
+	</script>
+</body>
+</html>
