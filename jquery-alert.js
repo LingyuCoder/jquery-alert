@@ -1,4 +1,5 @@
-jQuery(function() {
+(function($) {
+	'use strict';
 	var defaultConfig = {
 		content: '',
 		modal: false,
@@ -28,7 +29,6 @@ jQuery(function() {
 			input: 'wd-ui-ipt',
 		},
 	};
-	var $ = jQuery;
 
 	function initConfirm($widget, config){
 		var css = config.css;
@@ -120,4 +120,4 @@ jQuery(function() {
 		initPrompt($widget, config);
 		return $widget;
 	};
-});
+})(jQuery);
