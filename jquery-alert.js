@@ -1,4 +1,15 @@
-(function($) {
+(function(factory) {
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define('jquery-alert', ['jquery-widget'], factory);
+	} else if (typeof exports === 'object') {
+		// Node/CommonJS
+		factory(require('jquery'));
+	} else {
+		// Browser globals
+		factory(jQuery);
+	}
+}(function($) {
 	'use strict';
 	var defaultConfig = {
 		content: '',
@@ -10,7 +21,7 @@
 			footer: 'wd-ui-ft',
 			close: 'wd-ui-close'
 		},
-		close: function(){},
+		close: function() {},
 		closeText: 'close',
 		width: 300,
 		open: function() {}
@@ -30,11 +41,11 @@
 		},
 	};
 
-	function initConfirm($widget, config){
+	function initConfirm($widget, config) {
 		var css = config.css;
 		var $ft = $widget.find('.wd-ft');
 		var $ok = $('<button class="wd-ok">' + config.okText + '</button>');
-		$ok.addClass(css.ok).on('click', function(){
+		$ok.addClass(css.ok).on('click', function() {
 			config.ok.call($widget);
 		});
 		$ft.append($ok);
@@ -46,8 +57,8 @@
 		var $ipt = $('<div class="wd-ipt"><input placeholder="' + config.remind + '" value="' + config.defaultValue + '"></input></div>');
 		var $ok = $widget.find('.wd-ok');
 
-		$ipt.addClass(css.input).find('input').on('keypress', function(event){
-			if(event.which === 13) {
+		$ipt.addClass(css.input).find('input').on('keypress', function(event) {
+			if (event.which === 13) {
 				$ok.click();
 			}
 		});
@@ -56,17 +67,17 @@
 
 	}
 
-	function bindEvent(config, name, prompt){
+	function bindEvent(config, name, prompt) {
 		var old = config[name];
-		config[name] = function(){
-			
+		config[name] = function() {
+
 			this.hide();
-			if(prompt && name === 'ok') {
-				old.call(this, this.find('.wd-ipt').val());
+			if (prompt && name === 'ok') {
+				old.call(this, this.find('.wd-ipt input').val());
 			} else {
 				old.call(this);
 			}
-			
+
 			this.destroy();
 		};
 	}
@@ -120,4 +131,4 @@
 		initPrompt($widget, config);
 		return $widget;
 	};
-})(jQuery);
+}));
